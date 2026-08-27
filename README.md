@@ -32,4 +32,22 @@ curl -i http://localhost:8080/donor-service/actuator/health
 ```
 # api-gateway
 
-Placeholder for API Gateway. Phase 3 will add implementation.
+Spring Cloud Gateway on port `8080`. It uses Eureka service discovery and exposes the business services through stable prefixes.
+
+| Gateway path | Service |
+|---|---|
+| `/donor-service/**` | donor-service |
+| `/blood-request-service/**` | blood-request-service |
+| `/donation-service/**` | donation-service |
+
+```bash
+mvn -DskipTests package
+java -jar target/api-gateway-0.0.1-SNAPSHOT.jar
+```
+
+Set `EUREKA_DEFAULT_ZONE` when Eureka is not running on `localhost:8761`. Verify the gateway with:
+
+```bash
+curl http://localhost:8080/actuator/health
+curl http://localhost:8080/actuator/routes
+```
